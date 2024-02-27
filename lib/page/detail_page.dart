@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'buy.dart';
 
 import '../model/food.dart';
 
@@ -49,7 +50,7 @@ class _DetailPageState extends State<DetailPage> {
                         fontSize: 34,
                       ),
                     ),
-                    Text('\$${widget.food.price}',
+                    Text('${widget.food.price}  \Bath',
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -147,14 +148,22 @@ class _DetailPageState extends State<DetailPage> {
             borderRadius: BorderRadius.circular(16),
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        BuyPage(food: widget.food, quantity: quantity),
+                  ),
+                );
+              },
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   vertical: 20,
                 ),
                 child: const Text(
-                  'Add to Cart',
+                  'Buy',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 18,
@@ -241,13 +250,23 @@ class _DetailPageState extends State<DetailPage> {
             color: Colors.white.withOpacity(0.3),
             borderRadius: BorderRadius.circular(8),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                setState(() {
+                  widget.food.isFavorite = !widget.food.isFavorite;
+                });
+              },
               borderRadius: BorderRadius.circular(8),
               child: Container(
                 height: 40,
                 width: 40,
                 alignment: Alignment.center,
-                child: const Icon(Icons.favorite_border, color: Colors.white),
+                child: Icon(
+                  widget.food.isFavorite
+                      ? Icons.favorite
+                      : Icons
+                          .favorite_border, // ถ้าเป็น Favorite ให้แสดงไอคอนในสีแดง
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
